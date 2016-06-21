@@ -22,9 +22,9 @@ namespace SdkPerfTest
 
         public void RunWithDiffferentSettings()
         {
-            var startRange = DocDBHelper.PartitionCount * 5;
-            var endRange = startRange * 15;
-            var interval = DocDBHelper.PartitionCount * 5;
+            var startRange = 50;
+            var endRange = DocDBHelper.PartitionCount * 150;
+            var interval = DocDBHelper.PartitionCount * 10;
             for (int i = startRange; i <= endRange; i += interval)
             {
                 if (Program.useThroughputHelper)
@@ -49,7 +49,7 @@ namespace SdkPerfTest
 
                     var totalRequests = SimpleThroughputHelper.GetInstance().TotalCompletion + SimpleThroughputHelper.GetInstance().ThrottleCount;
                     var throttlePercentage = totalRequests > 0 ? 1.0 * SimpleThroughputHelper.GetInstance().ThrottleCount / totalRequests : 0;
-                    var avgThroughput = 1000.0 * SimpleThroughputHelper.GetInstance().TotalCompletion * ThroughputHelper.RUPerCycle / SimpleThroughputHelper.GetInstance().RuntimeMs;
+                    var avgThroughput = 1000.0 * SimpleThroughputHelper.GetInstance().TotalCompletion / ThroughputHelper.ReqPerCycle * ThroughputHelper.RUPerCycle / SimpleThroughputHelper.GetInstance().RuntimeMs;
                     var clientThroughput = SimpleThroughputHelper.GetInstance().GetAvgThroughput();
 
                     Console.WriteLine("\tAvg. RUs: {0:n1}, Client avg. RUs: {1:n1}, Req: {2:n0}, Throttle: {3:p1}, Runtime: {4:n0}ms",

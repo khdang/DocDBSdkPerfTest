@@ -26,6 +26,7 @@ namespace SdkPerfTest
         public static int RequestCount = 0;
         public static int ThrottleCount = 0;
         public static long RUPerCycle;
+        public static long ReqPerCycle;
 
         static ThroughputHelper() {
             ResetStats();

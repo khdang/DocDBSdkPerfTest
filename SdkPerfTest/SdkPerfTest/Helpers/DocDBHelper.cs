@@ -103,8 +103,7 @@ namespace SdkPerfTest
         {
             client = new DocumentClient(new Uri(endpointUrl), authorizationKey);
 
-            // set to the default retry policy
-            client.ConnectionPolicy.RetryOptions.MaxRetryAttemptsOnThrottledRequests = 9;
+            client.ConnectionPolicy.RetryOptions.MaxRetryAttemptsOnThrottledRequests = MaxRetryTimes;
 
             if (ReCreateDatabase)
             {
@@ -136,8 +135,6 @@ namespace SdkPerfTest
                     collectionDefinition,
                     new RequestOptions { OfferThroughput = DocDBHelper.OfferThroughput });
             }
-
-            client.ConnectionPolicy.RetryOptions.MaxRetryAttemptsOnThrottledRequests = MaxRetryTimes;
         }
 
         internal static async Task<Database> DeleteDatabaseIfExists(string databaseId)

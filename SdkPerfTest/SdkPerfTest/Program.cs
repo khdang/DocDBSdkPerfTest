@@ -26,9 +26,10 @@ namespace SdkPerfTest
     {
         internal static int UpdateFreq = 100;
         internal static int PrintStatusFreq = 1000;
-        internal static bool RunWithDifferentDefaultConnLimit = false;
+        internal static bool RunWithDifferentSettings = false;
         internal static bool useThroughputHelper = false;
         internal static bool useSimpleThroughputHelper = true;
+        internal static int SleepBetweenRun = 60000;
 
         internal static RunMode Mode = RunMode.Threads;
 
@@ -46,25 +47,36 @@ namespace SdkPerfTest
 
             ParseArgument(args);
 
-            if (RunWithDifferentDefaultConnLimit)
+            if (RunWithDifferentSettings)
             {
-                var values = new int[] { 
+                var defaultConnectionLimitValues = new int[] { 
+                    16,
                     50,
-                    Environment.ProcessorCount * 100,
-                    10000,
-                    int.MaxValue
+                    10000
                 };
 
-                for (int i = 0; i < values.Length; ++i)
+                var maxClientRetryValues = new int[] {
+                    9,
+                    3,
+                    1,
+                    0
+                };
+
+                foreach (int maxRetry in maxClientRetryValues)
                 {
-                    ServicePointManager.DefaultConnectionLimit = values[i];
+                    DocDBHelper.MaxRetryTimes = maxRetry;
+                    Console.WriteLine("\nRunning with client.MaxRetryAttemptsOnThrottledRequests = {0}", maxRetry);
 
-                    Console.WriteLine("\nRunning with ServicePointManager.DefaultConnectionLimit={0}", values[i]);
+                    foreach (int connLimit in defaultConnectionLimitValues)
+                    {
+                        ServicePointManager.DefaultConnectionLimit = connLimit;
+                        Console.WriteLine("\nRunning with ServicePointManager.DefaultConnectionLimit = {0}", connLimit);
 
-                    MainTask();
+                        MainTask();
 
-                    Console.WriteLine("Sleeping for 5secs..");
-                    Thread.Sleep(5000);
+                        Console.WriteLine("Sleeping for {0:n1} ms..", SleepBetweenRun);
+                        Thread.Sleep(SleepBetweenRun);
+                    }
                 }
             }
             else
@@ -80,10 +92,13 @@ namespace SdkPerfTest
                 DocDBHelper.Initialize().Wait();
 
                 long beforeRU = SimpleThroughputHelper.GetInstance().TotalRequestCharge;
+                long beforeReq = SimpleThroughputHelper.GetInstance().TotalCompletion;
                 DocDBHelper.RunOneCycle().Wait();
                 long afterRU = SimpleThroughputHelper.GetInstance().TotalRequestCharge;
+                long afterReq = SimpleThroughputHelper.GetInstance().TotalCompletion;
                 ThroughputHelper.RUPerCycle = afterRU - beforeRU;
-                Console.WriteLine("RunOneCycle() RU: {0}", ThroughputHelper.RUPerCycle);
+                ThroughputHelper.ReqPerCycle = afterReq - beforeReq;
+                Console.WriteLine("RU/cycle: {0:n0}, Req/cycle: {1:n0}", ThroughputHelper.RUPerCycle, ThroughputHelper.ReqPerCycle);
 
                 if (useThroughputHelper)
                 {
@@ -157,8 +172,8 @@ namespace SdkPerfTest
             bool tempBool = false;
             if (args.Length >= 2 && bool.TryParse(args[1], out tempBool))
             {
-                RunWithDifferentDefaultConnLimit = tempBool;
-                Console.WriteLine("\tRunWithDifferentDefaultConnLimit = {0}", RunWithDifferentDefaultConnLimit);
+                RunWithDifferentSettings = tempBool;
+                Console.WriteLine("\tRunWithDifferentSettings = {0}", RunWithDifferentSettings);
             }
 
             if (args.Length >= 3 && bool.TryParse(args[2], out tempBool))
