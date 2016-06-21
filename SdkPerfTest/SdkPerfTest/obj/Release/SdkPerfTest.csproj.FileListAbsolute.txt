@@ -12,3 +12,11 @@ F:\DocumentDB\Items\Sdk perf throughput\SdkPerfTest\SdkPerfTest\obj\Release\SdkP
 E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\SdkPerfTest.exe.config
 E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.exe
 E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.pdb
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\SdkPerfTest.exe
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\SdkPerfTest.pdb
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\Microsoft.Azure.Documents.Client.dll
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\Newtonsoft.Json.dll
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\Microsoft.Azure.Documents.Client.pdb
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\Microsoft.Azure.Documents.Client.xml
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\Newtonsoft.Json.xml
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.csprojResolveAssemblyReference.cache

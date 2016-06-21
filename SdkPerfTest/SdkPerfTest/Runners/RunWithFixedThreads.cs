@@ -23,8 +23,8 @@ namespace SdkPerfTest
         public void RunWithDiffferentSettings()
         {
             var startRange = DocDBHelper.PartitionCount * 5;
-            var endRange = startRange * 10;
-            var interval = startRange;
+            var endRange = startRange * 15;
+            var interval = DocDBHelper.PartitionCount * 5;
             for (int i = startRange; i <= endRange; i += interval)
             {
                 if (Program.useThroughputHelper)
@@ -46,11 +46,17 @@ namespace SdkPerfTest
                 if (Program.useSimpleThroughputHelper)
                 {
                     SimpleThroughputHelper.GetInstance().UpdateRunTime();
+
                     var totalRequests = SimpleThroughputHelper.GetInstance().TotalCompletion + SimpleThroughputHelper.GetInstance().ThrottleCount;
-                    Console.WriteLine("Average throughput: {0:0}, TotalRequests: {1}, Throttle: {2:0.0%}, Total Run time: {3}ms",
-                        1000.0 * SimpleThroughputHelper.GetInstance().TotalCompletion * ThroughputHelper.RUPerCycle / SimpleThroughputHelper.GetInstance().RuntimeMs,
+                    var throttlePercentage = totalRequests > 0 ? 1.0 * SimpleThroughputHelper.GetInstance().ThrottleCount / totalRequests : 0;
+                    var avgThroughput = 1000.0 * SimpleThroughputHelper.GetInstance().TotalCompletion * ThroughputHelper.RUPerCycle / SimpleThroughputHelper.GetInstance().RuntimeMs;
+                    var clientThroughput = SimpleThroughputHelper.GetInstance().GetAvgThroughput();
+
+                    Console.WriteLine("\tAvg. RUs: {0:n1}, Client avg. RUs: {1:n1}, Req: {2:n0}, Throttle: {3:p1}, Runtime: {4:n0}ms",
+                        avgThroughput,
+                        clientThroughput,
                         totalRequests,
-                        totalRequests > 0 ? SimpleThroughputHelper.GetInstance().ThrottleCount/totalRequests : 0,
+                        throttlePercentage,
                         SimpleThroughputHelper.GetInstance().RuntimeMs);
                 }
             }
@@ -58,7 +64,7 @@ namespace SdkPerfTest
 
         public void Run()
         {
-            Console.WriteLine("Running with fixed threads. ThreadCount={0}", ThreadCount);
+            Console.WriteLine("\nRunning with fixed threads. ThreadCount={0}", ThreadCount);
             int iterations = Math.Max(MinIteration, (int)Math.Ceiling(1.0*ThreadsTimeIteration/ThreadCount));
 
             var threads = new Thread[ThreadCount];

@@ -26,8 +26,8 @@ namespace SdkPerfTest.Helpers
         public long DelayThrottleCount;
         public long DelayTotalCompletion;
 
-        private Timer delayTimer;
-        private Timer startTimer;
+        //private Timer delayTimer;
+        //private Timer startTimer;
 
         private static SimpleThroughputHelper _instance = new SimpleThroughputHelper();
         public static SimpleThroughputHelper GetInstance() {
@@ -90,11 +90,9 @@ namespace SdkPerfTest.Helpers
             Interlocked.Increment(ref TotalCompletion);
         }
 
-        public long GetAvgThroughput()
+        public double GetAvgThroughput()
         {
-            UpdateRunTime();
-            //return TotalRequestCharge / RuntimeSecs;
-            return GetTotalRU() / RuntimeMs;
+            return 1000.0 * TotalRequestCharge / RuntimeMs;
         }
     }
 }

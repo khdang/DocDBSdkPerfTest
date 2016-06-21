@@ -49,8 +49,7 @@ namespace SdkPerfTest
             if (RunWithDifferentDefaultConnLimit)
             {
                 var values = new int[] { 
-                    1, 
-                    Environment.ProcessorCount, 
+                    50,
                     Environment.ProcessorCount * 100,
                     10000,
                     int.MaxValue
@@ -60,7 +59,7 @@ namespace SdkPerfTest
                 {
                     ServicePointManager.DefaultConnectionLimit = values[i];
 
-                    Console.WriteLine("Running with ServicePointManager.DefaultConnectionLimit={0}", values[i]);
+                    Console.WriteLine("\nRunning with ServicePointManager.DefaultConnectionLimit={0}", values[i]);
 
                     MainTask();
 
@@ -121,51 +120,51 @@ namespace SdkPerfTest
 
         private static void ReadConfig()
         {
-            Console.WriteLine("ReadConfig()");
+            Console.WriteLine("\nReadConfig()");
 
             int tempInt;
             if (int.TryParse(ConfigurationManager.AppSettings["UpdateFreq"], out tempInt))
             {
                 UpdateFreq = tempInt;
-                Console.WriteLine("UpdateFreq = {0}", tempInt);
+                Console.WriteLine("\tUpdateFreq = {0}", tempInt);
             }
 
             if (int.TryParse(ConfigurationManager.AppSettings["PrintStatusFreq"], out tempInt))
             {
                 PrintStatusFreq = tempInt;
-                Console.WriteLine("PrintStatusFreq = {0}", tempInt);
+                Console.WriteLine("\tPrintStatusFreq = {0}", tempInt);
             }
 
             if (int.TryParse(ConfigurationManager.AppSettings["PartitionCount"], out tempInt))
             {
                 DocDBHelper.PartitionCount = tempInt;
                 DocDBHelper.OfferThroughput = 10000 * DocDBHelper.PartitionCount;
-                Console.WriteLine("PartitionCount = {0}, OfferThroughput = {1}", DocDBHelper.PartitionCount, DocDBHelper.OfferThroughput);
+                Console.WriteLine("\tPartitionCount = {0}\r\n\tOfferThroughput = {1}", DocDBHelper.PartitionCount, DocDBHelper.OfferThroughput);
             }
         }
 
         private static void ParseArgument(string[] args)
         {
-            Console.WriteLine("ParseArgument()");
+            Console.WriteLine("\nParseArgument()");
 
             int tempInt = 0;
             if (args.Length >= 1 && int.TryParse(args[0], out tempInt))
             {
                 Mode = (RunMode)tempInt;
-                Console.WriteLine("Mode = {0}", Mode.ToString());
+                Console.WriteLine("\tMode = {0}", Mode.ToString());
             }
 
             bool tempBool = false;
             if (args.Length >= 2 && bool.TryParse(args[1], out tempBool))
             {
                 RunWithDifferentDefaultConnLimit = tempBool;
-                Console.WriteLine("RunWithDifferentDefaultConnLimit = {0}", RunWithDifferentDefaultConnLimit);
+                Console.WriteLine("\tRunWithDifferentDefaultConnLimit = {0}", RunWithDifferentDefaultConnLimit);
             }
 
             if (args.Length >= 3 && bool.TryParse(args[2], out tempBool))
             {
                 DocDBHelper.ReCreateDatabase = tempBool;
-                Console.WriteLine("ReCreateDatabase = {0}", tempBool);
+                Console.WriteLine("\tReCreateDatabase = {0}", tempBool);
             }
         }
 
