@@ -9,3 +9,6 @@ F:\DocumentDB\Items\Sdk perf throughput\SdkPerfTest\SdkPerfTest\bin\Release\Newt
 F:\DocumentDB\Items\Sdk perf throughput\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.exe
 F:\DocumentDB\Items\Sdk perf throughput\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.pdb
 F:\DocumentDB\Items\Sdk perf throughput\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.csprojResolveAssemblyReference.cache
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\bin\Release\SdkPerfTest.exe.config
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.exe
+E:\Open\DocDBSdkPerfTest\SdkPerfTest\SdkPerfTest\obj\Release\SdkPerfTest.pdb
